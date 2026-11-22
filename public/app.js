@@ -13,9 +13,9 @@
   }
   const input = $('nickname');
   input.addEventListener('input', () => {
-    $('preview-name').textContent = cleanNick(input.value) || '당신';
+    $('preview-name').textContent = cleanNick(input.value) || '닉네임';
     $('invite-result').hidden = true;
-    $('nickname-message').textContent = '최대 20글자로 표시돼요.';
+    $('nickname-message').textContent = '최대 20글자 · 링크에 닉네임이 포함돼요.';
     $('nickname-message').classList.remove('error');
     input.removeAttribute('aria-invalid');
   });
@@ -36,7 +36,7 @@
     $('generated-link').value = link.href;
     $('copy-status').textContent = '복사해서 친구나 서버 관리자에게 보내 주세요.';
     $('invite-result').hidden = false;
-    $('nickname-message').textContent = '초대장이 완성됐어요.';
+    $('nickname-message').textContent = '링크를 만들었어요.';
   });
   async function copyText(text) {
     try {
@@ -47,20 +47,11 @@
   }
   $('copy-link').addEventListener('click', async () => {
     if (await copyText($('generated-link').value)) {
-      $('copy-status').textContent = '초대 링크를 복사했어요!';
+      $('copy-status').textContent = '링크를 복사했어요.';
     } else {
       $('generated-link').focus();
       $('generated-link').select();
       $('copy-status').textContent = '복사를 허용하지 않는 환경이에요. 선택된 링크를 직접 복사해 주세요.';
     }
-  });
-  document.querySelectorAll('[data-command]').forEach(button => {
-    button.addEventListener('click', async () => {
-      const command = button.dataset.command;
-      const ok = await copyText(command);
-      $('command-feedback').textContent = ok
-        ? `${command} 명령어를 복사했어요. 디스코드에서 입력해 주세요.`
-        : `디스코드에서 ${command} 명령어를 입력해 주세요.`;
-    });
   });
 })();
